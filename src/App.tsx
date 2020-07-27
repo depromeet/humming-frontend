@@ -11,9 +11,25 @@ function App() {
     });
     console.log("location");
   }, []);
+
+  const myAudio = new Audio(
+    // chrome.runtime.getURL(
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+    // "https://www.youtube.com/embed/VdeK_VsG9U0"
+    // )
+  );
+  myAudio.play();
+
   return (
     <div className="App">
       <header className="App-header">
+        <iframe
+          title="test"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/VdeK_VsG9U0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           {location ? (

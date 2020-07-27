@@ -8,5 +8,8 @@
     "default_icon": "play.png",
     "default_popup": "index.html"
   },
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_security_policy": "script-src 'self' 'sha256-sPGY2rm4DpViU6dGhPvD2571GGjx05TVE/cSbPyY0L8='; object-src 'self'"
 }
