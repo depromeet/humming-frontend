@@ -1,0 +1,20 @@
+/* wrapper */
+.logo-wrapper {
+  /* 로고가 필수로 요구하는 최소 간격 */
+  padding: 6%;
+  /* 가운데 위치하게할 것 */
+  text-align: center;
+}
+
+/* stroke setting */
+svg {
+  margin-left: auto;
+  margin-right: auto;
+}
+.path {
+  fill: none;
+  stroke: #89725b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

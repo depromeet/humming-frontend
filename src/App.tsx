@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { AnimateLogo } from "./components";
 import logo from "./imgs/logo.svg";
 import "./App.css";
 
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <div className="App">
+      <AnimateLogo />
       <header className="App-header">
         <iframe
           title="test"
@@ -42,14 +44,6 @@ function App() {
           )}
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
