@@ -31,6 +31,7 @@ function App() {
           height="315"
           src="https://www.youtube.com/embed/VdeK_VsG9U0?autoplay=1"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
         />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
