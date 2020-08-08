@@ -2,14 +2,28 @@
   "name": "Humming",
   "version": "1.0",
   "description": "Recommended song according to weather.",
-  "permissions": ["declarativeContent", "storage", "geolocation"],
+  "permissions": [
+    "https://*.youtube.com/*",
+    "declarativeContent",
+    "storage",
+    "geolocation"
+  ],
+  "externally_connectable": {
+    "matches": ["*://*.youtube.com/*"]
+  },
   "manifest_version": 2,
   "browser_action": {
     "default_icon": "play.png",
     "default_popup": "index.html"
   },
   "background": {
-    "scripts": ["background.js"]
+    "page": "background.html",
+    "persistent": true
   },
-  "content_security_policy": "script-src 'self' 'sha256-sPGY2rm4DpViU6dGhPvD2571GGjx05TVE/cSbPyY0L8='; object-src 'self'"
+  "web_accessible_resources": [
+    "assets/img/*.svg",
+    "assets/img/*.png",
+    "https://www.youtube.com/"
+  ],
+  "content_security_policy": "script-src 'self' https://www.youtube.com https://s.ytimg.com/ 'sha256-sPGY2rm4DpViU6dGhPvD2571GGjx05TVE/cSbPyY0L8='; object-src 'self'"
 }

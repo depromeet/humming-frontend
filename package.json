@@ -19,7 +19,8 @@
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "youtube-iframe": "^1.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
