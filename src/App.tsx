@@ -4,9 +4,19 @@ import { getMusicAPI } from "./apis";
 import logo from "./imgs/logo.svg";
 import "./App.css";
 
+type YoutubeVideoDetail = {
+  video_id: string;
+  author: string;
+  title: string;
+  video_quality: string;
+};
+
 function App() {
   const [location, setLocation] = useState<Position | undefined>(undefined);
   const [music, setMusic] = useState<MusicRecommend>();
+  const [videoDetail, setVideoDetail] = useState<
+    undefined | YoutubeVideoDetail
+  >(undefined);
 
   console.log(music);
 
@@ -17,6 +27,18 @@ function App() {
     },
     []
   );
+
+  const getVideoDetail = useCallback(() => {
+    chrome.runtime.sendMessage(
+      { channel: "GET_VIDEO_DETAIL" },
+      (detail: YoutubeVideoDetail) => {
+        console.log(detail, "response");
+        setVideoDetail(detail);
+      }
+    );
+  }, []);
+
+  const handleClickPlay = useCallback(() => {}, []);
 
   useEffect(() => {
     console.log(music);
@@ -29,6 +51,7 @@ function App() {
   }, [fetchRecommend, location]);
 
   useEffect(() => {
+    getVideoDetail();
     const a = chrome.runtime.getBackgroundPage((background) => {
       console.log(background?.document);
     });
@@ -38,7 +61,7 @@ function App() {
       console.log(position);
     });
     console.log("location");
-  }, []);
+  }, [getVideoDetail]);
 
   // const myAudio = new Audio(
   //   // chrome.runtime.getURL(
@@ -61,6 +84,12 @@ function App() {
         /> */}
         <img src={logo} className="App-logo" alt="logo" />
         <p>
+          {videoDetail && (
+            <div>
+              <h1>{videoDetail.title}</h1>
+              <h2>{videoDetail.author}</h2>
+            </div>
+          )}
           {location ? (
             <>
               <div>{location?.coords.latitude}</div>
@@ -69,8 +98,8 @@ function App() {
           ) : (
             "no location"
           )}
-          Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <button onClick={handleClickPlay}>click</button>
       </header>
     </div>
   );

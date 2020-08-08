@@ -34,3 +34,13 @@ function onPlayerStateChange(event) {
 function stopVideo() {
   player.stopVideo();
 }
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(request);
+  switch (request.channel) {
+    case "GET_VIDEO_DETAIL":
+      return sendResponse(player.getVideoData());
+    default:
+      return null;
+  }
+});
