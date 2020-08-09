@@ -25,7 +25,32 @@ function onPlayerReady(event) {
 }
 
 var done = false;
+
+function getPlayerStatus(statusCode) {
+  switch (statusCode) {
+    case -1:
+      return "NOT_STARTED";
+    case 0:
+      return "CLOSED";
+    case 1:
+      return "PLAYING";
+    case 2:
+      return "PAUSED";
+    case 3:
+      return "BUFFERING";
+    default:
+      return "UNKNOWN";
+  }
+}
+
 function onPlayerStateChange(event) {
+  console.log("CHANGE_PLAYER_STATUS");
+  chrome.runtime.sendMessage({
+    channel: "CHANGE_PLAYER_STATUS",
+    payload: {
+      status: getPlayerStatus(event.data),
+    },
+  });
   if (event.data == YT.PlayerState.PLAYING && !done) {
     // setTimeout(stopVideo, 6000);
     done = true;

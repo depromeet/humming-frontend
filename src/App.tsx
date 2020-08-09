@@ -11,12 +11,21 @@ type YoutubeVideoDetail = {
   video_quality: string;
 };
 
+type PlayerStatus =
+  | "NOT_STARTED"
+  | "CLOSED"
+  | "PLAYING"
+  | "PAUSED"
+  | "BUFFERING"
+  | "UNKNOWN";
+
 function App() {
   const [location, setLocation] = useState<Position | undefined>(undefined);
   const [music, setMusic] = useState<MusicRecommend>();
   const [videoDetail, setVideoDetail] = useState<
     undefined | YoutubeVideoDetail
   >(undefined);
+  const [playerStatus, setPlayerStatus] = useState<PlayerStatus>("NOT_STARTED");
 
   console.log(music);
 
@@ -40,6 +49,24 @@ function App() {
 
   const handleClickPlay = useCallback(() => {}, []);
 
+  const registerYoutubeListener = useCallback(() => {
+    chrome.runtime.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse
+    ) {
+      // console.log("chagned", request);
+      switch (request.channel) {
+        case "CHANGE_PLAYER_STATUS":
+          console.log(request.payload.status);
+          setPlayerStatus(request.payload.status);
+          return;
+        default:
+          return null;
+      }
+    });
+  }, []);
+
   useEffect(() => {
     console.log(music);
   }, [music]);
@@ -52,16 +79,13 @@ function App() {
 
   useEffect(() => {
     getVideoDetail();
-    const a = chrome.runtime.getBackgroundPage((background) => {
-      console.log(background?.document);
-    });
-    console.log(a);
+    registerYoutubeListener();
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation(position);
       console.log(position);
     });
     console.log("location");
-  }, [getVideoDetail]);
+  }, [getVideoDetail, registerYoutubeListener]);
 
   // const myAudio = new Audio(
   //   // chrome.runtime.getURL(
