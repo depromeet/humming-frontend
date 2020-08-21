@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect, useState, useCallback} from 'react';
 import { AnimateLogo } from "./components";
 import { getMusicAPI } from "./apis";
-import { ReactComponent as Sunny } from "./imgs/sunny.svg";
+import { ReactComponent as SunnySvg } from "./imgs/sunny.svg";
+import { ReactComponent as PauseSvg } from "./imgs/pause-primary.svg";
+import { ReactComponent as LocationSvg } from "./imgs/icon-location.svg";
 import "./App.css";
 
 type YoutubeVideoDetail = {
@@ -27,8 +29,21 @@ function App() {
     undefined | YoutubeVideoDetail
   >(undefined);
   const [playerStatus, setPlayerStatus] = useState<PlayerStatus>("NOT_STARTED");
+  const [time, setTime] = useState(new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
 
-  console.log(music);
+  setInterval( () => {
+    const currentTime  = new Date()
+    .toLocaleString(
+      'en-US',
+      { hour: 'numeric', minute: 'numeric', hour12: true }
+    );
+    setTime(currentTime)
+  }, 1000);
+
+
+  setTimeout(() => {
+    setShowLogo(false)
+  }, 4000);
 
   const fetchRecommend = useCallback(
     async (latitude: number, longitude: number) => {
@@ -96,12 +111,8 @@ function App() {
   // );
   // myAudio.play();
 
-  setTimeout(() => {
-    setShowLogo(false)
-  }, 4000);
-
   return (
-    <div className="App">
+    <div className="app">
       { showLogo ? (
         <AnimateLogo />
       ) : (
@@ -113,30 +124,44 @@ function App() {
         src="https://www.youtube.com/embed/VdeK_VsG9U0?autoplay=1"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       /> */}
-      <div className="App-weather-logo-wrapper">
-        <Sunny />
+      <div className="weatherLogoWrapper">
+        <SunnySvg />
       </div>
       <div>
-        <div className="App-meta-wrapper">
-          <div className="App-time">
-            { new Date().toLocaleTimeString() }
+        <div className="metaWrapper">
+          { time }
+          <div className="bar"/>
+          <div>
+            <LocationSvg />
+            {/* TODO: location 정보 추가 */}
+            서울특별시, 후암동
           </div>
-          <div className="App-bar"/>
         </div>
-        <div className="App-text-content">
-          약간 흐려진 밤엔<br/>
+        <div className="textContent">
+          <b>약간 흐려진 밤</b>엔<br/>
           감성적인 마음을 위한<br/>
-          재즈 음악을.<br/>
+          <b>재즈 음악</b>을.<br/>
+        </div>
+        <div className="videoPlayerWrapper">
+          <div className="leftHideWrapper"/>
+          {videoDetail && (
+            <div className="videoDetail">
+              `${videoDetail.title} - ${videoDetail.author}`
+            </div>
+          )}
+          {/*TODO test용. 제거해야함*/}
+          <div className="videoDetail">
+            다시 여기 바닷가 - 싹쓰리
+          </div>
+          {/* TODO: 왼쪽 오른쪽 아이콘 추가*/}
+          <div className="playerWrapper">
+            <PauseSvg />
+            <PauseSvg className="pauseIcon"/>
+            <PauseSvg />
+          </div>
+          <div className="rightHideWrapper"/>
         </div>
       </div>
-      <p>
-        {videoDetail && (
-          <div>
-            <h1>{videoDetail.title}</h1>
-            <h2>{videoDetail.author}</h2>
-          </div>
-        )}
-      </p>
       {/*<button onClick={handleClickPlay}>click</button>*/}
       </>
       ) }

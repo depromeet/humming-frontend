@@ -1,4 +1,5 @@
-.App {
+.app {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -6,42 +7,33 @@
   align-items: center;
   width: 400px;
   height: 230px;
-  padding: 48px 60px;
-  background-color: beige; /* FIXME: 제거 */
+  background-color: white;
   font-family: 'Noto Sans KR', sans-serif;
   color: #89725b;
 }
 
-.App-logo {
-  /*height: 40vmin;*/
-  pointer-events: none;
-}
-
-.App-weather-logo-wrapper > svg {
+.weatherLogoWrapper > svg {
   width: 113px;
   height: 101px;
   fill: #89725b;
 }
 
-.App-meta-wrapper {
+.metaWrapper {
   display: flex;
   align-items: center;
 }
 
-.App-time {
-
-}
-
-.App-bar {
+.bar {
   width: 1px;
   height: 14px;
   background-color: #beafa0;
   margin: 0 11px;
 }
 
-.App-text-content {
+.textContent {
   /*width: 183px;*/
   height: 87px;
+  padding: 10px 0;
   font-size: 21px;
   font-weight: 300;
   font-stretch: normal;
@@ -52,21 +44,50 @@
 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.leftHideWrapper {
+  position: absolute;
+  top: 172px;
+  left: 0;
+  width: 145px;
+  height: 20px;
+  background-color: white;
+  z-index: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.rightHideWrapper {
+  position: absolute;
+  top: 172px;
+  right: 0;
+  width: 120px;
+  height: 20px;
+  background-color: white;
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes videoDetailMove {
+  from {right: -116px;}
+  to {right: 150px;}
+}
+
+.videoPlayerWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.videoDetail {
+  position: relative;
+  height: 20px;
+  font-size: 14px;
+  text-align: left;
+  animation: videoDetailMove 12s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.playerWrapper {
+  z-index: 2;
+}
+
+.pauseIcon {
+  margin: 0 6px;
 }
