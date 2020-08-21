@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { AnimateLogo } from "./components";
 import { getMusicAPI } from "./apis";
-import logo from "./imgs/logo.svg";
+import { ReactComponent as Sunny } from "./imgs/sunny.svg";
 import "./App.css";
 
 type YoutubeVideoDetail = {
@@ -20,6 +20,7 @@ type PlayerStatus =
   | "UNKNOWN";
 
 function App() {
+  const [showLogo, setShowLogo] = useState<boolean>(true)
   const [location, setLocation] = useState<Position | undefined>(undefined);
   const [music, setMusic] = useState<MusicRecommend>();
   const [videoDetail, setVideoDetail] = useState<
@@ -68,7 +69,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(music);
+    console.log({music});
   }, [music]);
 
   useEffect(() => {
@@ -78,8 +79,8 @@ function App() {
   }, [fetchRecommend, location]);
 
   useEffect(() => {
-    getVideoDetail();
-    registerYoutubeListener();
+    // getVideoDetail();
+    // registerYoutubeListener();
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation(position);
       console.log(position);
@@ -95,36 +96,50 @@ function App() {
   // );
   // myAudio.play();
 
+  setTimeout(() => {
+    setShowLogo(false)
+  }, 4000);
+
   return (
     <div className="App">
-      <AnimateLogo />
-      <header className="App-header">
-        {/* <iframe
-          title="test"
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/VdeK_VsG9U0?autoplay=1"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        /> */}
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {videoDetail && (
-            <div>
-              <h1>{videoDetail.title}</h1>
-              <h2>{videoDetail.author}</h2>
-            </div>
-          )}
-          {location ? (
-            <>
-              <div>{location?.coords.latitude}</div>
-              <div>{location?.coords.longitude}</div>
-            </>
-          ) : (
-            "no location"
-          )}
-        </p>
-        <button onClick={handleClickPlay}>click</button>
-      </header>
+      { showLogo ? (
+        <AnimateLogo />
+      ) : (
+      <>
+      {/* <iframe
+        title="test"
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/VdeK_VsG9U0?autoplay=1"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      /> */}
+      <div className="App-weather-logo-wrapper">
+        <Sunny />
+      </div>
+      <div>
+        <div className="App-meta-wrapper">
+          <div className="App-time">
+            { new Date().toLocaleTimeString() }
+          </div>
+          <div className="App-bar"/>
+        </div>
+        <div className="App-text-content">
+          약간 흐려진 밤엔<br/>
+          감성적인 마음을 위한<br/>
+          재즈 음악을.<br/>
+        </div>
+      </div>
+      <p>
+        {videoDetail && (
+          <div>
+            <h1>{videoDetail.title}</h1>
+            <h2>{videoDetail.author}</h2>
+          </div>
+        )}
+      </p>
+      {/*<button onClick={handleClickPlay}>click</button>*/}
+      </>
+      ) }
     </div>
   );
 }

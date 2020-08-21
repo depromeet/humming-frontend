@@ -7,7 +7,7 @@
 }
 
 /* stroke setting */
-svg {
+.logo-wrapper > svg {
   margin-left: auto;
   margin-right: auto;
 }
