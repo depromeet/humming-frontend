@@ -12,19 +12,12 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     height: "360",
     width: "640",
-    videoId: "M7lc1UVf-VE",
+    videoId: undefined,
     events: {
-      onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
     },
   });
 }
-
-function onPlayerReady(event) {
-  event.target.playVideo();
-}
-
-var done = false;
 
 function getPlayerStatus(statusCode) {
   switch (statusCode) {
@@ -44,27 +37,44 @@ function getPlayerStatus(statusCode) {
 }
 
 function onPlayerStateChange(event) {
-  console.log("CHANGE_PLAYER_STATUS");
   chrome.runtime.sendMessage({
     channel: "CHANGE_PLAYER_STATUS",
     payload: {
       status: getPlayerStatus(event.data),
     },
   });
-  if (event.data == YT.PlayerState.PLAYING && !done) {
-    // setTimeout(stopVideo, 6000);
-    done = true;
-  }
-}
-function stopVideo() {
-  player.stopVideo();
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(request);
+  console.log("request bg", request);
+  console.log("player", player);
   switch (request.channel) {
+    case "GET_PLAYER_STATUS":
+      return sendResponse(getPlayerStatus(player.getPlayerState()));
     case "GET_VIDEO_DETAIL":
       return sendResponse(player.getVideoData());
+    case "STOP_VIDEO":
+      player.stopVideo();
+      return;
+    case "PAUSE_VIDEO":
+      player.pauseVideo();
+      return;
+    case "PLAY_VIDEO":
+      player.playVideo();
+      return;
+    case "NEXT_VIDEO":
+      player.nextVideo();
+      return;
+    case "PREVIOUS_VIDEO":
+      player.previousVideo();
+      return;
+    case "GET_PLAYLIST":
+      console.log(player.getPlaylist());
+      return sendResponse(player.getPlaylist());
+    case "SET_PLAYLIST":
+      player.cuePlaylist(request.payload.playList, 0);
+      player.playVideo();
+      return;
     default:
       return null;
   }
