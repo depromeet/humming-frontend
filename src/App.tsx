@@ -2,6 +2,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import { AnimateLogo } from "./components";
 import { getMusicAPI } from "./apis";
 import { ReactComponent as SunnySvg } from "./imgs/sunny.svg";
+import { ReactComponent as CloudSvg } from "./imgs/day_cloud.svg";
+import { ReactComponent as SnowSvg } from "./imgs/snow.svg";
+import { ReactComponent as RainSvg } from "./imgs/rain.svg";
+import { ReactComponent as ThunderSvg } from "./imgs/thunder.svg";
+import { ReactComponent as WindSvg } from "./imgs/wind.svg";
 import { ReactComponent as PauseSvg } from "./imgs/pause-primary.svg";
 import { ReactComponent as NextSvg } from "./imgs/next.svg";
 import { ReactComponent as PrevSvg } from "./imgs/prev.svg";
@@ -80,6 +85,30 @@ function App() {
       }
     );
   }, []);
+  
+  const renderWeatherIcon = useCallback(() => {
+    switch (music?.weatherStatus) {
+      case 'CLOUD': {
+        return <CloudSvg/>
+      }
+      case 'RAIN': {
+        return <RainSvg/>
+      }
+      case 'SNOW': {
+        return <SnowSvg/>
+      }
+      case 'THUNDER': {
+        return <ThunderSvg/>
+      }
+      case 'WIND': {
+        return <WindSvg/>
+      }
+      case 'SUNNY':
+      default: {
+        return <SunnySvg/>
+      }
+    }
+  }, [music])
 
   const handleClickPlay = useCallback(() => {
     console.log("click play");
@@ -163,7 +192,7 @@ function App() {
       ) : (
         <>
           <div className="weatherLogoWrapper">
-            <SunnySvg />
+            {renderWeatherIcon()}
           </div>
           <div>
             <div className="metaWrapper">
@@ -171,7 +200,7 @@ function App() {
               <div className="bar" />
               <div>
                 <LocationSvg />
-                {/* TODO: location 정보 추가 */}
+                {/* TODO: location 정보 추? */}
                 서울특별시, 후암동
               </div>
             </div>
