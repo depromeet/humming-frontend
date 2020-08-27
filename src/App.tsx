@@ -1,8 +1,11 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { AnimateLogo } from "./components";
 import { getMusicAPI } from "./apis";
 import { ReactComponent as SunnySvg } from "./imgs/sunny.svg";
 import { ReactComponent as PauseSvg } from "./imgs/pause-primary.svg";
+import { ReactComponent as NextSvg } from "./imgs/next.svg";
+import { ReactComponent as PrevSvg } from "./imgs/prev.svg";
+import { ReactComponent as PlaySvg } from "./imgs/play.svg";
 import { ReactComponent as LocationSvg } from "./imgs/icon-location.svg";
 import "./App.css";
 
@@ -153,27 +156,12 @@ function App() {
     console.log("location");
   }, [getVideoDetail, registerYoutubeListener]);
 
-  // const myAudio = new Audio(
-  //   // chrome.runtime.getURL(
-  //   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
-  //   // "https://www.youtube.com/embed/VdeK_VsG9U0"
-  //   // )
-  // );
-  // myAudio.play();
-
   return (
     <div className="app">
       {showLogo ? (
         <AnimateLogo />
       ) : (
         <>
-          {/* <iframe
-        title="test"
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/VdeK_VsG9U0?autoplay=1"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      /> */}
           <div className="weatherLogoWrapper">
             <SunnySvg />
           </div>
@@ -201,20 +189,15 @@ function App() {
                   {videoDetail.title} - {videoDetail.author}
                 </div>
               )}
-              {/*TODO test용. 제거해야함*/}
-              {/* <div className="videoDetail">다시 여기 바닷가 - 싹쓰리</div> */}
-              {/* TODO: 왼쪽 오른쪽 아이콘 추가*/}
+              {/*<div className="videoDetail">[광고 없음] 비오는날 듣기좋은 노래/ 감성돋는 발라드 모음 / 빗소리와 함께 듣는 노래 - 효붕이네</div>*/}
               <div className="playerWrapper">
-                <PauseSvg onClick={handleClickPrev} />
-                <PauseSvg
-                  className="pauseIcon"
-                  onClick={
-                    playerStatus === "PLAYING"
-                      ? handleClickPause
-                      : handleClickPlay
-                  }
-                />
-                <PauseSvg onClick={handleClickNext} />
+                <PrevSvg className="prevIcon" onClick={handleClickPrev} />
+                { playerStatus === "PLAYING" ? (
+                  <PauseSvg className="pauseIcon" onClick={handleClickPause} />
+                ) : (
+                  <PlaySvg className="pauseIcon" onClick={handleClickPlay} />
+                ) }
+                <NextSvg className="nextIcon" onClick={handleClickNext} />
               </div>
               <div className="rightHideWrapper" />
             </div>

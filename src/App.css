@@ -13,14 +13,26 @@
 }
 
 .weatherLogoWrapper > svg {
-  width: 113px;
-  height: 101px;
   fill: #89725b;
+  width: 75.9px;
+  height: 76.4px;
+  transform-box: view-box;
+  padding-right: 50px;
+}
+
+.weatherLogoWrapper > path {
+  fill: none;
+  stroke: #89725b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
 }
 
 .metaWrapper {
   display: flex;
   align-items: center;
+  font-size: 11px;
 }
 
 .bar {
@@ -48,7 +60,7 @@
   position: absolute;
   top: 172px;
   left: 0;
-  width: 145px;
+  width: 170px;
   height: 20px;
   background-color: white;
   z-index: 1;
@@ -65,8 +77,8 @@
 }
 
 @keyframes videoDetailMove {
-  from {right: -116px;}
-  to {right: 150px;}
+  from {right: -180px;}
+  to {right: 480px;}
 }
 
 .videoPlayerWrapper {
@@ -79,15 +91,27 @@
   height: 20px;
   font-size: 14px;
   text-align: left;
-  animation: videoDetailMove 12s;
+  animation: videoDetailMove 25s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .playerWrapper {
   z-index: 2;
+  height: 20px;
+  display: flex;
+  margin-left: -90px;
+  padding-left: 10px;
+}
+
+.prevIcon, .nextIcon {
+  cursor: pointer;
 }
 
 .pauseIcon {
   margin: 0 6px;
+  cursor: pointer;
 }
