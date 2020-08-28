@@ -20,6 +20,8 @@
   padding-right: 50px;
 }
 
+.st0{fill:none;stroke:#89725B;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+
 .weatherLogoWrapper > path {
   fill: none;
   stroke: #89725b;
