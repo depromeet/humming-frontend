@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { AnimateLogo } from "./components";
 import { getMusicAPI } from "./apis";
 import { ReactComponent as SunnySvg } from "./imgs/sunny.svg";
 import { ReactComponent as CloudSvg } from "./imgs/day_cloud.svg";
 import { ReactComponent as SnowSvg } from "./imgs/snow.svg";
 import { ReactComponent as RainSvg } from "./imgs/rain.svg";
-import { ReactComponent as ThunderSvg } from "./imgs/thunder.svg";
-import { ReactComponent as WindSvg } from "./imgs/wind.svg";
 import { ReactComponent as PauseSvg } from "./imgs/pause-primary.svg";
 import { ReactComponent as NextSvg } from "./imgs/next.svg";
 import { ReactComponent as PrevSvg } from "./imgs/prev.svg";
@@ -28,6 +26,13 @@ type PlayerStatus =
   | "PAUSED"
   | "BUFFERING"
   | "UNKNOWN";
+
+export enum WeatherType {
+  SUN = 'SUN',
+  CLOUD = 'CLOUD',
+  RAIN = 'RAIN',
+  SNOW = 'SNOW',
+}
 
 function App() {
   const [showLogo, setShowLogo] = useState<boolean>(true);
@@ -86,26 +91,64 @@ function App() {
     );
   }, []);
   
-  const renderWeatherIcon = useCallback(() => {
+  const weater = useMemo(() => {
     switch (music?.weatherStatus) {
-      case 'CLOUD': {
-        return <CloudSvg/>
+      case WeatherType.CLOUD: {
+        return {
+          text: (
+            <>
+              <b>약간 흐려진 날</b>엔<br />
+              감성적인 마음을 위한
+              <br />
+              <b>재즈 음악</b>을.
+              <br />
+            </>
+          ),
+          icon: <CloudSvg/>
+        }
       }
-      case 'RAIN': {
-        return <RainSvg/>
+      case WeatherType.RAIN: {
+        return {
+          text: (
+            <>
+              <b>비가 오는 날</b>엔<br />
+              고즈넉한 분위기를 살려줄
+              <br />
+              <b>잔잔한 음악</b>을.
+              <br />
+            </>
+          ),
+          icon: <RainSvg/>
+        }
       }
-      case 'SNOW': {
-        return <SnowSvg/>
+      case WeatherType.SNOW: {
+        return {
+          text: (
+            <>
+              <b>눈이 노는 날</b>엔<br />
+              설레는 하루를 위한
+              <br />
+              <b>크리스마스 음악</b>을.
+              <br />
+            </>
+          ),
+          icon: <SnowSvg/>
+        }
       }
-      case 'THUNDER': {
-        return <ThunderSvg/>
-      }
-      case 'WIND': {
-        return <WindSvg/>
-      }
-      case 'SUNNY':
+      case WeatherType.SUN:
       default: {
-        return <SunnySvg/>
+        return {
+          text: (
+            <>
+              <b>맑은 날</b>엔<br />
+              상쾌한 하루를 위한
+              <br />
+              <b>밝은 음악</b>을.
+              <br />
+            </>
+          ),
+          icon: <SunnySvg/>
+        }
       }
     }
   }, [music])
@@ -192,7 +235,7 @@ function App() {
       ) : (
         <>
           <div className="weatherLogoWrapper">
-            {renderWeatherIcon()}
+            { weater.icon }
           </div>
           <div>
             <div className="metaWrapper">
@@ -200,16 +243,12 @@ function App() {
               <div className="bar" />
               <div>
                 <LocationSvg />
-                {/* TODO: location 정보 추? */}
+                {/* TODO: location 정보 추가? */}
                 서울특별시, 후암동
               </div>
             </div>
             <div className="textContent">
-              <b>약간 흐려진 밤</b>엔<br />
-              감성적인 마음을 위한
-              <br />
-              <b>재즈 음악</b>을.
-              <br />
+              { weater.text }
             </div>
             <div className="videoPlayerWrapper">
               <div className="leftHideWrapper" />
